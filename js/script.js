@@ -1,27 +1,30 @@
-// ✅ 클래스명 수정
-const tabList = document.querySelectorAll('.nav-list li');
-const content = document.querySelectorAll('.content_list li');
+const container = document.querySelector('#container')
+const title = document.querySelector('.title')
 
-let i = 0;
+const playBtn = document.querySelector('#play')
+const stopBtn = document.querySelector('#stop')
+let play = setInterval(bgChange, 1000)
 
-init(i);
+function getRandomColor() {
+    let hex = "#" + Math.random().toString(16).slice(2, 8)
 
-function init(q) {
-    tabList[q].classList.add('on');
-    content[q].classList.add('active');
+    return hex
 }
 
-function reset() {
-    for (let i = 0; i < tabList.length; i++) {
-        tabList[i].classList.remove('on');
-        content[i].classList.remove('active');
+function bgChange() {
+    let randomColor = getRandomColor()
+    container.style.backgroundColor = randomColor
+    title.textContent = randomColor
+
+}
+
+stopBtn.addEventListener('click', () => {
+    clearInterval(play)
+    play = null
+
+})
+playBtn.addEventListener('click', () => {
+    if (!play) {
+        play = setInterval(bgChange, 1000)
     }
-}
-
-tabList.forEach((tab, index) => {
-    tab.addEventListener('click', (e) => {
-        e.preventDefault();
-        reset();
-        init(index);
-    });
-});
+})
